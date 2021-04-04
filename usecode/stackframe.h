@@ -69,5 +69,6 @@ public:
 };
 
 std::ostream &operator<<(std::ostream &out, Stack_frame &frame);
+void WriteSelfToOutputFile(FILE &out);
 
 #endif

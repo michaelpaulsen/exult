@@ -97,3 +97,21 @@ std::ostream &operator<<(std::ostream &out, Stack_frame &frame) {
 
 	return out;
 }
+FILE& WriteSelfToOutputFile(FILE* out) {
+	// #depth: 0xIP in 0xfunid ( obj=..., event=..., arguments )
+
+	// TODO: include any debugging info
+	// #depth: 0xIP in functionname (obj=...,event=..., arg1name=..., ...)
+	fprintf(out, "#%d hex 0x%X (obj=%s, ev = %d) ",
+			this.call_depth, static_cast<int>(this.ip - frame.code),
+			this.caller_item.get()->get_name().c_str(), 	
+			this.function->id,
+			this.eventid);
+
+	for (int i = 0; i < frame.num_args; i++)
+	out << ", " << frame.locals[i];
+
+	//out << ")";
+
+	return *out;
+}
