@@ -38,7 +38,7 @@ public:
 
 	Usecode_function *function;
 	const uint8 *ip; // current IP
-	const uint8 *data; // pointer to start of data segment
+	const uint8 *data; // pointer to start of data segment string? 
 	const uint8 *externs; // pointer to start of externs
 	const uint8 *code; // pointer to (actual) code
 	const uint8 *endp; // pointer directly past code segment

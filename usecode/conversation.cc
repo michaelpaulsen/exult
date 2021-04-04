@@ -339,12 +339,12 @@ void Conversation::show_npc_message(const char *msg) {
 	if (last_face_shown == -1)
 		return;
 	Npc_face_info *info = face_info[last_face_shown];
-	int font = info->large_face ? 7 : 0;    // Use red for Guardian, snake.
+	int font = info->large_face ? 7 : 0;    // Use red for Guardian, snake. does nothing 
 	info->cur_text = "";
 	TileRect &box = info->text_rect;
 //	gwin->paint(box);        // Clear what was there before.
 //	paint_faces();
-	gwin->paint();
+	gwin->paint(); // gwin is the game window this function call does nothing? 
 	int height;         // Break at punctuation.
 	/* NOTE:  The original centers text for Guardian, snake.    */
 	while ((height = sman->paint_text_box(font, msg, box.x, box.y,

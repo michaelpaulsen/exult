@@ -1,3 +1,4 @@
+
 /*
  *  stackframe.cc - a usecode interpreter stack frame
  *
@@ -41,17 +42,17 @@ Stack_frame::Stack_frame(Usecode_function *fun,
 	: function(fun), ip(nullptr), data(nullptr), externs(nullptr), code(nullptr), endp(nullptr),
 	  line_number(-1), call_chain(chain), call_depth(depth),
 	  num_externs(0), num_args(0), num_vars(0), locals(nullptr), eventid(event),
-	  caller_item(shared_from_obj(caller)), save_sp(nullptr) {
+	  caller_item(shared_from_obj(caller)), save_sp(nullptr) /* seting the vars */ {
 	ip = function->code;
 	endp = ip + function->len;
-
+	//DMA(pointer based) Object constsruction? 
 	int data_len;
 	if (!fun->extended)
-		data_len = Read2(ip);   // Get length of (text) data.
+		data_len = Read2(ip);   // Get length of (text/Usecodes) data.
 	else
 		data_len = Read4s(ip); // 32 bit lengths
 
-	data = ip;
+	data = ip; //set the data to the internal pointer 
 
 	ip += data_len;         // Point past text.
 	num_args = Read2(ip);   // # of args. this function takes.
@@ -69,7 +70,7 @@ Stack_frame::Stack_frame(Usecode_function *fun,
 	ip += 2 * num_externs; // now points to actual code
 
 	code = ip;
-}
+}//end of constructor 
 
 Stack_frame::~Stack_frame() {
 	delete[] locals;

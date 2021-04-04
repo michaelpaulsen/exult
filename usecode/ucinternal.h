@@ -93,7 +93,7 @@ class Usecode_internal : public Usecode_machine {
 	void append_string(const uint8 *txt) {
 		append_string(reinterpret_cast<char const *>(txt));
 	}
-	void append_string(const char *str);    // Append to string.
+	void append_string(const char *str);    // Append to string. And displays an textbox 
 	void show_pending_text();   // Make sure user's seen all text.
 	void show_book();       // "Say" book/scroll text.
 	void say_string();      // "Say" the string.

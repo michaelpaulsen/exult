@@ -610,7 +610,7 @@ void Usecode_internal::show_book(
 void Usecode_internal::say_string(
 ) {
 	//  user_choice = 0;        // Clear user's response.
-	if (!String)
+	if (!String) // if the string no data then return as there's nothing to do 
 		return;
 	if (book) {         // Displaying a book?
 		show_book();
@@ -618,15 +618,15 @@ void Usecode_internal::say_string(
 	}
 	show_pending_text();        // Make sure prev. text was seen.
 	char *str = String;
-	while (*str) {          // Look for stopping points ("~~").
+	while (*str) {          // Look for stopping points ("~~"). dosn't safely exit when str* = nullptr not that that is much of a consern because it will never be. 
 		if (*str == '*') {  // Just gets an extra click.
 			click_to_continue();
 			str++;
 			continue;
 		}
-		char *eol = strchr(str, '~');
-		if (!eol) {     // Not found?
 			conv->show_npc_message(str);
+		char *eol = strchr(str, '~'); // returns a pointer to the first instance of ~ in the string 
+		if (!eol) {     // Not found? If theres no ~ found in the string then show the npc message then break? 
 			click_to_continue();
 			break;
 		}
