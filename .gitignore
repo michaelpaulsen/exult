@@ -290,3 +290,4 @@ project.xcworkspace
 *.ilk
 *.pdb
 Makefile.mingw
+stdout.txt

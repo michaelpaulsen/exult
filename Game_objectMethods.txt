@@ -1,0 +1,62 @@
+Game_map *map;
+Chunk_terrain *terrain;
+Object_list objects;
+Game_object *first_nonflat;
+unsigned char from_below, from_right, from_below_right;
+unsigned char ice_dungeon;  
+std::unique_ptr<unsigned char[]> dungeon_levels;  
+std::shared_ptr<Chunk_cache> cache;  
+unsigned char roof;     
+std::set<Game_object*> dungeon_lights;
+std::set<Game_object*> non_dungeon_lights;
+unsigned char cx, cy;       
+bool selected;          
+void add_dungeon_levels(TileRect &tiles, unsigned int lift);
+void add_dependencies(Game_object *newobj, Ordering_info &newinfo);
+static Map_chunk *add_outside_dependencies(int cx, int cy, Game_object *newobj, Ordering_info &newinfo);
+Map_chunk(Game_map *m, int chunkx, int chunky);
+Game_map *get_map() const 
+Chunk_terrain *get_terrain() const 
+void set_terrain(Chunk_terrain *ter);
+void add(Game_object *obj);
+void add_egg(Egg_object *egg);
+void remove_egg(Egg_object *egg);
+void remove(Game_object *remove);
+static void gravity(TileRect const &area, int lift);
+int is_roof(int tx, int ty, int lift);
+Object_list &get_objects()
+Game_object *get_first_nonflat() const
+int get_cx() const
+int get_cy() const
+void set_selected(bool tf)
+bool is_selected() const 
+const std::set<Game_object*>& get_dungeon_lights() const 
+const std::set<Game_object*>& get_non_dungeon_lights() const 
+ShapeID get_flat(int tilex, int tiley) const 
+Image_buffer8 *get_rendered_flats() 
+Chunk_cache *get_cache() const 
+Chunk_cache *need_cache() 
+void setup_cache() 
+	void set_blocked(int startx, int starty, int endx, int endy, int lift, int ztiles, bool set)
+	int get_highest_blocked(int lift, int tx, int ty)
+	int get_lowest_blocked(int lift, int tx, int ty) 
+	bool is_blocked(int height, int lift, int tx, int ty, int &new_lift, const int move_flags, int max_drop = 1, int max_rise = -1)
+	static bool is_blocked(int height, int lift, int startx, int starty, int xtiles, int ytiles, int &new_lift, const int move_flags, int max_drop, int max_rise = -1);
+	static bool is_blocked(Tile_coord &tile, int height, const int move_flags, int max_drop = 1, int max_rise = -1);
+	static bool is_blocked(int xtiles, int ytiles, int ztiles, Tile_coord const &from, Tile_coord &to, const int move_flags, int max_drop = 1, int max_rise = -1);
+	bool is_tile_occupied(int tx, int ty, int tz) 
+	enum Find_spot_where {anywhere = 0, inside, outside};
+	static Tile_coord find_spot(Tile_coord pos, int dist, int shapenum, int framenum, int max_drop = 0, int dir = -1, Find_spot_where where = anywhere);
+	static Tile_coord find_spot(Tile_coord const &pos, int dist, Game_object *obj, int max_drop = 0, Find_spot_where where = anywhere);
+	void set_egged(Egg_object *egg, TileRect &tiles, bool add)
+	void activate_eggs(Game_object *obj, int tx, int ty, int tz, int from_tx, int from_ty, bool now = false) 
+	Game_object *find_door(Tile_coord const &t)
+	static int find_in_area(std::vector<Game_object *> &vec, TileRect const &area, int shapenum, int framenum);
+	static void try_all_eggs(Game_object *obj, int tx, int ty, int tz, int from_tx, int from_ty);
+	void setup_dungeon_levels();    // Set up after IFIX objs. read.
+	inline bool has_dungeon()
+	inline int is_dungeon(int tx, int ty)
+	inline bool is_ice_dungeon(int tx, int ty) 
+	void kill_cache();
+	int get_obj_actors(std::vector<Game_object *> &removes, std::vector<Actor *> &actors);
+	void write(ODataSource& out, bool v2);
