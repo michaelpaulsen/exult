@@ -134,13 +134,22 @@ void Stack_frame::printSelfToFile(FILE* out){
 			}
 			//the rest are non-printable 
 			default: {
-					if (this->locals[i].get_type() != 0) {
-						fprintf(out, "unhaneled type %d in locals[%d] ", locals[i].get_type(), i);
-					}
-					break;
+				if (this->locals[i].get_type() != 0) {
+					fprintf(out, "unhaneled type %d in locals[%d] ", locals[i].get_type(), i);
+				}
+				break;
 			}
 			
 		}
 			fprintf(out, "\n");
+	}
+	if (locals[0].get_type() == 1) {
+		if (locals[0].get_str_value()) {
+			fprintf(out, "file name: %s_%s_0x%X.mp3\n\n",
+					this->caller_item.get()->get_name().c_str(),
+					locals[0].get_str_value(),
+					static_cast<int>(this->ip - this->code),
+					this->function->id);
+		}
 	}
 }
