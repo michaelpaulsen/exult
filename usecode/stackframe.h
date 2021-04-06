@@ -66,9 +66,8 @@ public:
 	static int getCallChainID() {
 		return ++LastCallChainID;
 	}
+	void printSelfToFile(FILE* out);
 };
 
 std::ostream &operator<<(std::ostream &out, Stack_frame &frame);
-void WriteSelfToOutputFile(FILE &out);
-
 #endif
