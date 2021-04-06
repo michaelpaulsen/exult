@@ -105,7 +105,7 @@ using std::vector;
 using std::ostream;
 
 // External globals..
-extern FILE* std_out = fopen("stdout.txt", "a+");
+extern FILE* std_out = fopen("stdout.txt", "w+");
 
 extern bool intrinsic_trace;
 extern int usecode_trace;
@@ -2168,14 +2168,9 @@ int Usecode_internal::run() {
 					DATA_SEGMENT_ERROR();
 					break;
 				}
-				// no need to try as the A(pend)+(Update) mode creates the file for you if it dosn't allready exist 
-				
-				//char* buff = new char[10];
-				append_string("-");
-				frame->printSelfToFile(std_out);
-				fprintf(std_out, "text_box string \"%s\"\n\n\n", frame->data + offset);
-				append_string(frame->data + offset);    // display the text
-				
+					frame->printSelfToFile(std_out);
+					fprintf(std_out, "text_box string \"%s\"\n\n\n",frame->data+offset);
+					append_string(frame->data + offset);    // display the
 				break; 
 			}
 			case UC_PUSHS:        // PUSHS.
