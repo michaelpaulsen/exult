@@ -105,6 +105,7 @@ using std::vector;
 using std::ostream;
 
 // External globals..
+extern FILE* std_out = fopen("stdout.txt", "a+");
 
 extern bool intrinsic_trace;
 extern int usecode_trace;
@@ -2167,7 +2168,6 @@ int Usecode_internal::run() {
 					DATA_SEGMENT_ERROR();
 					break;
 				}
-				FILE *std_out = fopen("stdout.txt", "a+"); 
 				// no need to try as the A(pend)+(Update) mode creates the file for you if it dosn't allready exist 
 				
 				//char* buff = new char[10];
