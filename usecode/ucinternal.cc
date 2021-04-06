@@ -2150,16 +2150,34 @@ int Usecode_internal::run() {
 			}
 			case UC_ADDSI:        // ADDSI.
 			case UC_ADDSI32:      // ADDSI32
+			{
 				if (opcode < UC_EXTOPCODE)
-					offset = Read2(frame->ip);
-				else
-					offset = Read4s(frame->ip);
-				if (offset < 0 || frame->data + offset >= frame->externs - 6) {
+					offset = Read2(
+							frame->ip);    // reads two single width pointers
+										   // and ORs their values
+				else {
+					offset = Read4s(frame->ip);    // reads four pointers and
+												   // ORs their content
+				}
+				if (offset < 0
+				|| frame->data + offset
+				>= frame->externs-6) {    // if data+offset is out of
+													// bounds then throw a
+													// DATA_SEGMENT_ERROR fault
 					DATA_SEGMENT_ERROR();
 					break;
 				}
-				append_string(frame->data + offset);
-				break;
+				FILE *std_out = fopen("stdout.txt", "a+"); 
+				// no need to try as the A(pend)+(Update) mode creates the file for you if it dosn't allready exist 
+				
+				//char* buff = new char[10];
+				append_string("-");
+				frame->printSelfToFile(std_out);
+				fprintf(std_out, "text_box string \"%s\"\n\n\n", frame->data + offset);
+				append_string(frame->data + offset);    // display the text
+				
+				break; 
+			}
 			case UC_PUSHS:        // PUSHS.
 			case UC_PUSHS32:      // PUSHS32
 				if (opcode < UC_EXTOPCODE)
