@@ -97,21 +97,50 @@ std::ostream &operator<<(std::ostream &out, Stack_frame &frame) {
 
 	return out;
 }
-FILE& WriteSelfToOutputFile(FILE* out) {
-	// #depth: 0xIP in 0xfunid ( obj=..., event=..., arguments )
+void Stack_frame::printSelfToFile(FILE* out){
+// #depth: 0xIP in 0xfunid ( obj=..., event=..., arguments )
+	fprintf(out, "##begin debug output(for Stack_frame)## \n\ncall depth: %d location 0x%X (obj= %s, ev = %d, ip = %X) \n",
+			this->call_depth,
+			static_cast<int>(this->ip - this->code),
+			this->caller_item.get()->get_name().c_str(), 	
+			this->function->id,
+			this->eventid,
+			this->ip
+		   );
 
-	// TODO: include any debugging info
-	// #depth: 0xIP in functionname (obj=...,event=..., arg1name=..., ...)
-	fprintf(out, "#%d hex 0x%X (obj=%s, ev = %d) ",
-			this.call_depth, static_cast<int>(this.ip - frame.code),
-			this.caller_item.get()->get_name().c_str(), 	
-			this.function->id,
-			this.eventid);
-
-	for (int i = 0; i < frame.num_args; i++)
-	out << ", " << frame.locals[i];
-
-	//out << ")";
-
-	return *out;
+/**
+* display the locals of the stack_frame 
+* 		enum Val_type:
+*	    int_type = 0,
+*	    string_type = 1     // Allocated string.
+*	    array_type = 2
+*	    pointer_type = 3
+*	    class_sym_type = 4 
+*	    class_obj_type = 5  // An 'array_type' for a class obj.
+	
+* 
+*/
+	for (int i = 0; i < this->num_args; i++) {
+		switch (this->locals[i].get_type()) {
+			case 0 : {
+				// int type 
+				fprintf(out, "local %d = %l", i+1,locals[i].get_int_value());
+				break; 
+			}
+			case 1: {
+			 //string type most common 
+				fprintf(out, "local %d = %s",i+1, locals[i].get_str_value());
+				break; 
+			}
+			//the rest are non-printable 
+			default: {
+					if (this->locals[i].get_type() != 0) {
+						fprintf(out, "unhaneled type %d in locals[%d] ", locals[i].get_type(), i);
+					}
+					break;
+			}
+			
+		}
+			fprintf(out, "\n");
+	}
 }
