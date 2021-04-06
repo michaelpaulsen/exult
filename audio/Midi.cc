@@ -734,6 +734,8 @@ void    MyMidiPlayer::stop_sound_effects()
 
 bool MyMidiPlayer::ogg_play_track(const std::string& filename, int num, bool repeat)
 {
+	FILE* std_out                             = fopen("../stdout.txt", "a+"); 
+	fprintf(std_out, filename.c_str());
 	string ogg_name;
 	string basepath = "<MUSIC>/";
 
